@@ -1,6 +1,20 @@
+// 
+// 	Copyright 2017 by marmot author: gdccmcm14@live.com.
+// 	Licensed under the Apache License, Version 2.0 (the "License");
+// 	you may not use this file except in compliance with the License.
+// 	You may obtain a copy of the License at
+// 		http://www.apache.org/licenses/LICENSE-2.0
+// 	Unless required by applicable law or agreed to in writing, software
+// 	distributed under the License is distributed on an "AS IS" BASIS,
+// 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// 	See the License for the specific language governing permissions and
+// 	limitations under the License
+//
+
 /*
 	More detail Example
 */
+
 package main
 
 import (
@@ -33,10 +47,10 @@ func main() {
 	// SetUrl: required, the Url
 	// SetMethod: optional, HTTP method: POST/GET/..., default GET
 	// SetWaitTime: optional, HTTP request wait/pause time
-	worker.SetUrl("http://cjhug.me/fuck.html").SetMethod(miner.GET).SetWaitTime(2)
+	worker.SetUrl("https://hunterhug.github.io").SetMethod(miner.GET).SetWaitTime(2)
 	worker.SetUa(miner.RandomUa())                // optional, browser user agent: IE/Firefox...
-	worker.SetRefer("https://www.whitehouse.gov") // optional, url refer
-	worker.SetHeaderParm("diyheader", "lenggirl") // optional, some other diy http header
+	worker.SetRefer("https://hunterhug.github.io") // optional, url refer
+	worker.SetHeaderParm("diyheader", "diy")      // optional, some other diy http header
 	//worker.SetBData([]byte("file data"))    // optional, if you want post JSON data or upload file
 	//worker.SetFormParm("username","jinhan") // optional: if you want post form
 	//worker.SetFormParm("password","123")
@@ -66,7 +80,7 @@ func main() {
 	miner.Pool.Set("myfirstworker", worker)
 	if w, ok := miner.Pool.Get("myfirstworker"); ok {
 		go func() {
-			data, _ := w.SetUrl("http://cjhug.me/fuck.html").Get()
+			data, _ := w.SetUrl("https://hunterhug.github.io/fuck.html").Get()
 			log.Info(string(data))
 		}()
 		util.Sleep(10)

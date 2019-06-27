@@ -6,7 +6,8 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/marmot)](https://goreportcard.com/report/github.com/hunterhug/marmot)
 [![GitHub issues](https://img.shields.io/github/issues/hunterhug/marmot.svg)](https://github.com/hunterhug/marmot/issues)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ChinaEnglish/marmot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
-
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 ![土拨](tubo.png)
 
@@ -22,17 +23,28 @@
 
 ## 一.下载
 
-自己封装的爬虫库,类似于Python的requests,你只需通过该方式获取库
+自己封装的Golang爬虫下载库,类似于Python的`requests`, 但很弱, 支持各种代理模式和伪装功能, 你只需通过该方式获取库
 
 ```
 go get -v github.com/hunterhug/marmot/miner
 ```
 
+或者直接下载:
+
+```
+cd src && mkdir github.com/hunterhug
+cd src/github.com/hunterhug
+git clone https://github.com/hunterhug/marmot
+```
+
+中国用户因为墙的问题下载不到依赖库， 可以将`GOPATH`文件夹下的库移到您环境的`GOPATH`下
+
+
 ## 二.使用
 
-请参考最新的英文版本, 中文版本不再更新...
+请参考最新的英文版本. 此库可模拟上传文件，模拟表单提交，模拟各种各样的操作.
 
-官方部分示例已经合进本库，参见`example`文件夹
+官方部分示例已经合进本库，参见`example`文件夹，示例我有
 
 ```go
 package main
@@ -47,7 +59,7 @@ func main() {
 	// 1.新建一个矿工
 	worker, _ := miner.New(nil)
 	// 2.设置网址
-	worker.SetUrl("http://www.cjhug.me").SetUa(worker.RandomUa()).SetMethod(worker.GET)
+	worker.SetUrl("https://hunterhug.github.io").SetUa(worker.RandomUa()).SetMethod(worker.GET)
 	// 3.抓取网址
 	html, err := worker.Go()
 	if err != nil {
@@ -93,10 +105,10 @@ func main() {
 	// SetUrl:Url必须设置
 	// SetMethod:HTTP方法可以是POST或GET,可不设置,默认GET,传错值默认为GET
 	// SetWaitTime:暂停时间,可不设置,默认不暂停
-	worker.SetUrl("http://cjhug.me/fuck.html").SetMethod(miner.GET).SetWaitTime(2)
+	worker.SetUrl("https://hunterhug.github.io/fuck.html").SetMethod(miner.GET).SetWaitTime(2)
 	worker.SetUa(miner.RandomUa())                //设置随机浏览器标志
-	worker.SetRefer("http://cjhug.me/fuck.html")  // 设置Refer头
-	worker.SetHeaderParm("diyheader", "lenggirl") // 自定义头部
+	worker.SetRefer("https://hunterhug.github.io/fuck.html")  // 设置Refer头
+	worker.SetHeaderParm("diyheader", "diy") // 自定义头部
 	//worker.SetBData([]byte("file data")) // 如果你要提交JSON数据/上传文件
 	//worker.SetFormParm("username","jinhan") // 提交表单
 	//worker.SetFormParm("password","123")
@@ -123,7 +135,7 @@ func main() {
 	miner.Pool.Set("myfirstworker", worker)
 	if poolworkerider, ok := miner.Pool.Get("myfirstworker"); ok {
 		go func() {
-			poolworkerider.SetUrl("http://cjhug.me/fuck.html")
+			poolworkerider.SetUrl("https://hunterhug.github.io/fuck.html")
 			data, _ := poolworkerider.Get()
 			log.Info(string(data))
 		}()
@@ -148,12 +160,12 @@ func main() {
 
 模拟矿工设置头部:
 
-1. `worker.SetUrl("http://www.cjhug.me")`  // 设置Http请求要抓取的网址,必须
+1. `worker.SetUrl("https://hunterhug.github.io")`  // 设置Http请求要抓取的网址,必须
 2. `worker.SetMethod(miner.GET)`  // 设置Http请求的方法:`POST/GET/PUT/POSTJSON`等
 3. `worker.SetWaitTime(2)` // 设置Http请求超时时间
 4. `worker.SetUa(miner.RandomUa())`                // 设置Http请求浏览器标志,本项目提供445个浏览器标志，可选设置
 5. `worker.SetRefer("http://www.baidu.com")`       // 设置Http请求Refer头
-6. `worker.SetHeaderParm("diyheader", "lenggirl")` // 设置Http请求自定义头部
+6. `worker.SetHeaderParm("diyheader", "diy")` // 设置Http请求自定义头部
 7. `worker.SetBData([]byte("file data"))` // Http请求需要上传数据
 8. `worker.SetFormParm("username","jinhan")` // Http请求需要提交表单
 9. `worker.SetCookie("xx=dddd")` // Http请求设置cookie, 某些网站需要登录后F12复制cookie
@@ -167,14 +179,15 @@ func main() {
 3. `body, err := worker.Post()` // POST表单请求,数据在SetFormParm()
 4. `body, err := worker.PostJSON()` // 提交JSON请求,数据在SetBData()
 5. `body, err := worker.PostXML()` // 提交XML请求,数据在SetBData()
-6. `body, err := worker.PostFILE()` // 提交文件上传请求,数据在SetBData()
+6. `body, err := worker.PostFILE()` // 提交文件上传请求,数据在SetBData(), 你必须设置SetFileInfo(fileName, fileFormName string)
 7. `body, err := worker.Delete()` 
 8. `body, err := worker.Put()`
 9. `body, err := worker.PutJSON()` 
 10. `body, err := worker.PutXML()`
 11. `body, err := worker.PutFILE()`
-12. `body, err := worker.OtherGo("OPTIONS", "application/x-www-form-urlencoded")` // 其他自定义的HTTP方法
-13. `body, err := worker.GoByMethod("POST")` // you can override SetMethod() By this, equal SetMethod() then Go()
+12. `body, err := worker.OtherGo("OPTIONS", "application/x-www-form-urlencoded")` // 其他自定义的HTTP方法, 不能模拟二进制
+13. `body, err := worker.OtherGo("OPTIONS", "application/x-www-form-urlencoded")` // 其他自定义的HTTP方法, 模拟二进制
+14. `body, err := worker.GoByMethod("POST")` // you can override SetMethod() By this, equal SetMethod() then Go()
 
 ### 第四步
 
@@ -186,44 +199,14 @@ func main() {
 
 注意：每次抓取网站后,下次请求你可以覆盖原先的头部,但是没覆盖的头部还是上次的,所以清除头部或请求数据,请使用`Clear()`(只清除Post数据)或者`ClearAll()`(还清除http头部)
 
-[API参考](doc/api.md),更多自行查看源代码
+### 其他
 
-## 三.项目应用
+勾子:
 
-该爬虫库已经在多个项目中使用
+1. `SetBeforeAction(fc func(context.Context, *Worker))` 爬虫动作前可AOP注入
+2. `SetAfterAction(fc func(context.Context, *Worker))` 爬虫动作完成后
 
-1. [亚马逊大型分布式爬虫](https://github.com/hunterhug/AmazonBigSpider) // 查看[图文](/doc/amazon.md)
-2. [煎蛋分布式文章爬虫](https://github.com/hunterhug/jiandan)
-3. [知乎全能API小工具](https://github.com/hunterhug/huhu)
-4. [网易无损音乐下载](/example/practice/music/README.md)
-5. [天猫淘宝有关的采集小程序](https://github.com/hunterhug/GoTaoBao)
-6. ...
-
-版本日志信息见[日志](/doc/log.md), 爬虫环境安装请参考:[Docker快速版本](https://github.com/hunterhug/GoSpider-docker)
-
-示例编译二进制方法：
-
-Linux二进制
-
-```bash
-cd main
-
-# 64位
-GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -x -o zhihu_linux_amd64 main.go
-
-# 32位
-GOOS=linux GOARCH=386 go build -ldflags "-s -w" -x -o zhihu_linux_386 main.go
-```
-
-Windows二进制
-
-```bash
-# 64位
-GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" -x -o zhihu_windows_amd64.exe main.go
-
-# 32位
-GOOS=windows GOARCH=386 go build -ldflags "-s -w" -x -o zhihu_windows_386.exe main.go
-```
+`tool`和`expert`下为一些封装好的工具函数, 某些如亚马逊云, 腾讯云, 微信开发API的签名工具函数暂不开源.
 
 如果你觉得项目帮助到你,欢迎请我喝杯咖啡
 
@@ -232,6 +215,3 @@ GOOS=windows GOARCH=386 go build -ldflags "-s -w" -x -o zhihu_windows_386.exe ma
 
 支付宝
 ![支付宝](https://raw.githubusercontent.com/hunterhug/hunterhug.github.io/master/static/jpg/ali.png)
-
-
-问题咨询请发邮件:gdccmcm14@live.com.

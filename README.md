@@ -1,3 +1,5 @@
+
+
 # Project: Marmot
 
 [![GitHub forks](https://img.shields.io/github/forks/hunterhug/marmot.svg?style=social&label=Forks)](https://github.com/hunterhug/marmot/network)
@@ -6,14 +8,16 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/marmot)](https://goreportcard.com/report/github.com/hunterhug/marmot)
 [![GitHub issues](https://img.shields.io/github/issues/hunterhug/marmot.svg)](https://github.com/hunterhug/marmot/issues)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ChinaEnglish/marmot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 [中文介绍](/doc/Chinese.md)
+
+If you `go get` difficult, you can move those files under `GOPATH` in this project to your Golang env's `GOPATH`. 
 
 HTTP Download Helper, Supports Many Features such as Cookie Persistence, HTTP(S) and SOCKS5 Proxy....
 
 ![Marmot](/doc/tubo.png)
-
-[TOC]
 
 ## 1. Introduction
 
@@ -48,7 +52,7 @@ func main() {
 	// Use Default Worker, You can Also New One:
 	// worker:=miner.New(nil)
 	miner.SetLogLevel(miner.DEBUG)
-	_, err := miner.SetUrl("https://www.whitehouse.gov").Go()
+	_, err := miner.SetUrl("https://hunterhug.github.io").Go()
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
@@ -56,6 +60,8 @@ func main() {
 	}
 }
 ```
+
+See the `example` dir.such as lesson or practice.
 
 ## 2. How To Use
 
@@ -65,7 +71,7 @@ You can get it by:
 go get -v github.com/hunterhug/marmot/miner
 ```
 
-Or make your GOPATH sub dir: `/src/github.com/hunterhug`, and
+Or make your `GOPATH` sub dir: `/src/github.com/hunterhug`, and
 
 ```
 cd src/github.com/hunterhug
@@ -94,7 +100,7 @@ func main() {
 	// 1. New a worker
 	worker, _ := miner.New(nil)
 	// 2. Set a URL And Fetch
-	html, err := worker.SetUrl("https://www.whitehouse.gov").SetUa(miner.RandomUa()).SetMethod(miner.GET).Go()
+	html, err := worker.SetUrl("https://hunterhug.github.io").SetUa(miner.RandomUa()).SetMethod(miner.GET).Go()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -140,10 +146,10 @@ func main() {
 	// SetUrl: required, the Url
 	// SetMethod: optional, HTTP method: POST/GET/..., default GET
 	// SetWaitTime: optional, HTTP request wait/pause time
-	worker.SetUrl("http://cjhug.me/fuck.html").SetMethod(miner.GET).SetWaitTime(2)
+	worker.SetUrl("https://hunterhug.github.io/fuck.html").SetMethod(miner.GET).SetWaitTime(2)
 	worker.SetUa(miner.RandomUa())                // optional, browser user agent: IE/Firefox...
-	worker.SetRefer("https://www.whitehouse.gov") // optional, url refer
-	worker.SetHeaderParm("diyheader", "lenggirl") // optional, some other diy http header
+	worker.SetRefer("https://hunterhug.github.io") // optional, url refer
+	worker.SetHeaderParm("diyheader", "diy") // optional, some other diy http header
 	//worker.SetBData([]byte("file data"))    // optional, if you want post JSON data or upload file
 	//worker.SetFormParm("username","jinhan") // optional: if you want post form
 	//worker.SetFormParm("password","123")
@@ -173,7 +179,7 @@ func main() {
 	miner.Pool.Set("myfirstworker", worker)
 	if w, ok := miner.Pool.Get("myfirstworker"); ok {
 		go func() {
-			data, _ := w.SetUrl("http://cjhug.me/fuck.html").Get()
+			data, _ := w.SetUrl("https://hunterhug.github.io/fuck.html").Get()
 			log.Info(string(data))
 		}()
 		util.Sleep(10)
@@ -202,7 +208,7 @@ func main() {
 	miner.SetLogLevel(miner.DEBUG)
 
 	// The url we want
-	url := "https://www.whitehouse.gov"
+	url := "https://hunterhug.github.io"
 
 	// IAM we can NewAPI
 	worker := miner.NewAPI()
@@ -275,12 +281,12 @@ There are four kinds of worker:
 
 Camouflage our worker:
 
-1. `worker.SetUrl("https://www.whitehouse.gov")`  // required: set url you want to
+1. `worker.SetUrl("https://hunterhug.github.io")`  // required: set url you want to
 2. `worker.SetMethod(miner.GET)`  // optional: set http method `POST/GET/PUT/POSTJSON` and so on
 3. `worker.SetWaitTime(2)`                         // optional: set timeout of http request
 4. `worker.SetUa(miner.RandomUa())`                 // optional: set http browser user agent, you can see miner/config/ua.txt
-5. `worker.SetRefer("https://www.whitehouse.gov")`       // optional: set http request Refer
-6. `worker.SetHeaderParm("diyheader", "lenggirl")` // optional: set http diy header
+5. `worker.SetRefer("https://hunterhug.github.io")`       // optional: set http request Refer
+6. `worker.SetHeaderParm("diyheader", "diy")` // optional: set http diy header
 7. `worker.SetBData([]byte("file data"))` // optional: set binary data for post or put
 8. `worker.SetFormParm("username","jinhan")` // optional: set form data for post or put 
 9. `worker.SetCookie("xx=dddd")` // optional: you can set a init cookie, some website you can login and F12 copy the cookie
@@ -295,14 +301,15 @@ Run our worker:
 3. `body, err := worker.Post()` // post form request, data fill by SetFormParm()
 4. `body, err := worker.PostJSON()` // post JSON request, data fill by SetBData()
 5. `body, err := worker.PostXML()` // post XML request, data fill by SetBData()
-6. `body, err := worker.PostFILE()` // upload file, data fill by SetBData()
+6. `body, err := worker.PostFILE()` // upload file, data fill by SetBData(), and should set SetFileInfo(fileName, fileFormName string)
 7. `body, err := worker.Delete()` // you know!
 8. `body, err := worker.Put()` // ones http method...
 9. `body, err := worker.PutJSON()` // put JSON request
 10. `body, err := worker.PutXML()`
 11. `body, err := worker.PutFILE()`
-12. `body, err := worker.OtherGo("OPTIONS", "application/x-www-form-urlencoded")` // Other http method, Such as OPTIONS etcd.
-13. `body, err := worker.GoByMethod("POST")` // you can override SetMethod() By this, equal SetMethod() then Go()
+12. `body, err := worker.OtherGo("OPTIONS", "application/x-www-form-urlencoded")` // Other http method, Such as OPTIONS etc., can not sent binary.
+13. `body, err := worker.OtherGoBinary("OPTIONS", "application/x-www-form-urlencoded")` // Other http method, Such as OPTIONS etc., just sent binary.
+14. `body, err := worker.GoByMethod("POST")` // you can override SetMethod() By this, equal SetMethod() then Go()
 
 ### 3.4 The Fourth Step
 
@@ -315,157 +322,17 @@ Deal the return data, all data will be return as binary, You can immediately sto
 Attention: after every request for a url, the next request you can cover your http request header, otherwise header you set still exist,
 if just want clear post data, use `Clear()`, and want clear HTTP header too please use `ClearAll()` .
 
-Here is a example `lesson6.go` again:
+Here is some practice in the example dir.
 
-```go
-package main
+### 3.5 Other
 
-import (
-	"errors"
-	"fmt"
-	"net/url"
-	"strings"
+Hook:
 
-	"github.com/hunterhug/marmot/expert"
-	"github.com/hunterhug/marmot/miner"
-	"github.com/hunterhug/parrot/util"
-)
-
-// Num of miner, We can run it at the same time to crawl data fast
-var MinerNum = 5
-
-// You can update this decide whether to proxy
-var ProxyAddress interface{}
-
-func main() {
-	// You can Proxy!
-	// ProxyAddress = "socks5://127.0.0.1:1080"
-
-	fmt.Println(`Welcome: Input "url" and picture keep "dir"`)
-	for {
-		fmt.Println("---------------------------------------------")
-		url := util.Input(`URL(Like: "http://publicdomainarchive.com")`, "http://publicdomainarchive.com")
-		dir := util.Input(`DIR(Default: "./picture")`, "./picture")
-		fmt.Printf("You will keep %s picture in dir %s\n", url, dir)
-		fmt.Println("---------------------------------------------")
-
-		// Start Catch
-		err := CatchPicture(url, dir)
-		if err != nil {
-			fmt.Println("Error:" + err.Error())
-		}
-	}
-}
-
-// Come on!
-func CatchPicture(picture_url string, dir string) error {
-	// Check valid
-	_, err := url.Parse(picture_url)
-	if err != nil {
-		return err
-	}
-
-	// Make dir!
-	err = util.MakeDir(dir)
-	if err != nil {
-		return err
-	}
-
-	// New a worker to get url
-	worker, _ := miner.New(ProxyAddress)
-
-	result, err := worker.SetUrl(picture_url).SetUa(miner.RandomUa()).Get()
-	if err != nil {
-		return err
-	}
-
-	// Find all picture
-	pictures := expert.FindPicture(string(result))
-
-	// Empty, What a pity!
-	if len(pictures) == 0 {
-		return errors.New("empty")
-	}
-
-	// Devide pictures into several worker
-	xxx, _ := util.DevideStringList(pictures, MinerNum)
-
-	// Chanel to info exchange
-	chs := make(chan int, len(pictures))
-
-	// Go at the same time
-	for num, imgs := range xxx {
-
-		// Get pool miner
-		worker_picture, ok := miner.Pool.Get(util.IS(num))
-		if !ok {
-			// No? set one!
-			worker_temp, _ := miner.New(ProxyAddress)
-			worker_picture = worker_temp
-			worker_temp.SetUa(miner.RandomUa())
-			miner.Pool.Set(util.IS(num), worker_temp)
-		}
-
-		// Go save picture!
-		go func(imgs []string, worker *miner.Worker, num int) {
-			for _, img := range imgs {
-
-				// Check, May be Pass
-				_, err := url.Parse(img)
-				if err != nil {
-					continue
-				}
-
-				// Change Name of our picture
-				filename := strings.Replace(util.ValidFileName(img), "#", "_", -1)
-
-				// Exist?
-				if util.FileExist(dir + "/" + filename) {
-					fmt.Println("File Exist：" + dir + "/" + filename)
-					chs <- 0
-				} else {
-
-					// Not Exsit?
-					imgsrc, e := worker.SetUrl(img).Get()
-					if e != nil {
-						fmt.Println("Download " + img + " error:" + e.Error())
-						chs <- 0
-						return
-					}
-
-					// Save it!
-					e = util.SaveToFile(dir+"/"+filename, imgsrc)
-					if e == nil {
-						fmt.Printf("SP%d: Keep in %s/%s\n", num, dir, filename)
-					}
-					chs <- 1
-				}
-			}
-		}(imgs, worker_picture, num)
-	}
-
-	// Every picture should return
-	for i := 0; i < len(pictures); i++ {
-		<-chs
-	}
-
-	return nil
-}
-```
-
-More see the code source.
-
-## 4. Project Application
-
-It has already used in many project(although some is very simple) :
-
-1. [Full Golang Automatic Amazon Distributed crawler|spider](https://github.com/hunterhug/AmazonBigSpider) // Just see [Picture](doc/amazon.md)
-2. [GoTaobao](https://github.com/hunterhug/GoTaoBao)
-3. A lot closed source...
-
-Project change you can see [log](/doc/log.md), Install development environment you can refer:[GoSpider-docker](https://github.com/hunterhug/GoSpider-docker)
+1. `SetBeforeAction(fc func(context.Context, *Worker))`
+2. `SetAfterAction(fc func(context.Context, *Worker))`
 
 # LICENSE
+
 ```
 	Copyright 2017 by marmot author: gdccmcm14@live.com.
 	Licensed under the Apache License, Version 2.0 (the "License");
